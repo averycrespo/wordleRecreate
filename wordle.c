@@ -22,23 +22,35 @@ int generateNum( void ) {
 
 /**
  * Validates the placement of a character
+ * @param arr user's guess in char array format
+ * @param string the word to solve 
+ * @return true or false if the placement is in the correct order
 */
 bool validatePlacements( char arr[], char string[] ) {
     bool flag = true;
-    for( int i = 0; i < strlen( arr ); i++ ) {
+    for( int i = 0; i < 5; i++ ) {
         //If correct placement 
         if( arr[i] == string[i]) { 
-            printf("\033[0;32m"); //Set the text to the color red
+            printf("\033[0;32m"); //Set the text to the color green
             printf("%c", arr[i]);
             printf("\033[0m"); //Resets 
-        } else if ( arr[i] == string[i+1] ) { 
-            printf("\033[0;33m"); //Set the text to the color red
-            printf("%c", arr[i + 1]);
-            printf("\033[0m"); //Resets
+        } else { //Wrong character report as grey 
+            //Incorrect guess 
             flag = false;
-        } else { //Wrong character
-            printf("%c", arr[i]);
-            flag = false;
+            //Boolean to check if any correct letter was found in the incorrect placement 
+            bool printRegular = true;
+            for(int j = 0; j < 5; j++) {
+                if( arr[i] == string[j]) { 
+                    printf("\033[0;33m"); //Set the text to the color green
+                    printf("%c", arr[i]);
+                    printf("\033[0m"); //Resets
+                    printRegular = false; 
+                } 
+            }
+            if( printRegular == true ) {
+                printf("%c", arr[i]);
+                flag = false;
+            }
         }
   }
   printf("\n");
@@ -51,14 +63,10 @@ bool validatePlacements( char arr[], char string[] ) {
 */
 void saveStats( int counter ) {
     FILE *file = fopen("stats.txt", "r");
-    int a = 0;
-    int b = 0;
-    int c = 0;
-    int d = 0; 
-    int e = 0;
+    int a = 0; int b = 0; int c = 0; int d = 0; int e = 0;
 
-
-    fscanf( file, "%d%d%d%d%d", &a, &b, &c, &d, &e);
+    fscanf( file, "%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s",
+        &a, &b, &c, &d, &e);
 
     if( 1 == counter ) {
         a += 1;
@@ -104,7 +112,7 @@ int main(int argc, char *argv[] ) {
     }
     
     //String to store user input from command line 
-    char userGuess[6];
+    char userGuess[100];
     char ch;
     bool flag = false;
 
@@ -113,35 +121,39 @@ int main(int argc, char *argv[] ) {
 
     //Loop for five guesses until the user gets it correct
     while( counter != 5 ) {
-        fscanf(stdin, "%5s", userGuess);
-        userGuess[5] = '\0';
-
+        fscanf(stdin, "%s", userGuess);
+        userGuess[6] = '\0';
         //Convert to all lower
-        for(int i = 0; i < strlen(userGuess); i++) {
+        for(int i = 0; i < 5; i++) {
             ch = userGuess[i];
             userGuess[i] = tolower(ch); 
             i++; 
         } 
-
-    ///////
-         printf("The word was: %s\n", string);
-
-        //If user calls to quit 
-        if( strcmp(userGuess, "quit") == 0) {
+        if( strcmp(userGuess, "quit") == 0 ) {  //If user calls to quit 
             printf("The word was: %s\n", string);
             return EXIT_SUCCESS;
-        }
-        flag = validatePlacements( userGuess, string );
-        if( flag ) {
-            break;
+        } else if( strlen( userGuess ) != 5 ) {
+            printf("Invalid guess\n");
+        }  else {
+            flag = validatePlacements( userGuess, string );
+            if( flag ) {
+               //Increment counter to adjust for rounds
+                counter += 1; 
+                //Print out message 
+                printf( "You won in %d attempts!\n", counter);
+                //Save stats 
+                saveStats( counter ); 
+                printf("Stats saved to --> stats.txt\n");
+                return EXIT_SUCCESS;
+            }
         }
         counter++;
-    }
-    counter += 1; 
-    //Print out message 
-    printf( "You won in %d attempts!\n", counter);
-    //Save stats 
-    saveStats( counter );
+
+        printf("The word was: %s\n", string);
+    } //end of loop
+
+    //If reached
+    printf("You lost, the word was: %s\n", string);
     
     //exit correctly
     return EXIT_SUCCESS;
