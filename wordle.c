@@ -12,15 +12,16 @@
 #define NUMBER_OF_CHARS_WITH_NULL_TERMIN 6 
 
 void printBaner( void ) {
-    // printf("WW  WWWW  OOOOOOO  RRRRRRR  DDDDD    LLL  EEEEEEE\n");
-    // printf("WWW       OO   OO  RRRRRRR  DD   DD  LLL  EEEEEEE\n");
-    printf("WWW       WWW         WWW\n");
-    printf("WWWWW      WWW      WWWWW\n");
-    printf("WWWWWW     WWW     WWWWWW\n");
-    printf("WWWWWWW    WWW    WWWWWWW\n");
-    printf("WWWWWWWW   WWW   WWWWWW\n");
-    printf("WWWWWWWWWW   WWWW   WWWW\n");
-
+    printf("\033[0;31m");
+    printf("WWW          W          WWW      OOOOOOO       RRRRRRRRRR     DDDDDDDD        LLL            EEEEEEEEEEE  \n");
+    printf(" WWW       WWWWW       WWW     OOO     OOO     RRR     RRR    DDD     DDD     LLL            EEE          \n");
+    printf("  WWW     WWW WWW     WWW     OOO       OOO    RRR     RRR    DDD      DDD    LLL            EEE          \n");
+    printf("    WW  WWW     WWW  WW      OOO         OOO   RRRRRRRRRR     DDD       DDD   LLL            EEEEEEEEEEE  \n");
+    printf("     WWWWW       WWWWW        OOO       OOO    RRR   RRR      DDD      DDD    LLL            EEE          \n");
+    printf("      WWW         WWW          OOO     OOO     RRRR    RRR    DDD     DDD     LLL            EEE          \n");
+    printf("       WW         WW             OOOOOOO       RRR      RRR   DDDDDDDD        LLLLLLLLLLL    EEEEEEEEEEE  \n");
+    printf("\033[0m"); 
+    printf("Start Guessing 5 Lettered Words Below!\n");
 }
 
 /**
