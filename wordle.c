@@ -62,12 +62,14 @@ bool validatePlacements( char arr[], char string[] ) {
  * @param counter the number of attempts it took to solve the word 
 */
 void saveStats( int counter ) {
+    //Open file 
     FILE *file = fopen("stats.txt", "r");
     int a = 0; int b = 0; int c = 0; int d = 0; int e = 0;
-
+    //Scan through decimal values while ignoring the strings 
     fscanf( file, "%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s %d%*s%*s",
         &a, &b, &c, &d, &e);
 
+    //Counter is updated to correct variable placement 
     if( 1 == counter ) {
         a += 1;
     } else if( 2 == counter ) {
@@ -79,11 +81,12 @@ void saveStats( int counter ) {
     } else if( 5 == counter ) {
         e += 1;
     }
-
-        file = fopen("stats.txt", "w");
-        fprintf( file, "First attempt: %d\nSecond Attempt: %d\nThird Attempt: %d\nFourth Attempt: %d\nFifth Attempt: %d\n", a, b, c, d, e);
-    
-    
+    //Open file to write to 
+    file = fopen("stats.txt", "w");
+    //Print to file
+    fprintf( file, "First attempt: %d\nSecond Attempt: %d\nThird Attempt: %d\nFourth Attempt: %d\nFifth Attempt: %d\n", a, b, c, d, e);
+    //Close file 
+    fclose( file ) ;
 }
 
 /**
